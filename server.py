@@ -5,7 +5,7 @@ resource_file = "database.sql"
 os.system("clear")
 
 def encode(username, password):
-    return "$%s::%s$" % (username, hashlib.sha1(password).hexdigest())
+    return "$%s::%s$" % (username, hashlib.sha256(password).hexdigest())
 
 
 def add_user(username, password):
@@ -39,7 +39,6 @@ def login():
         os.system("perl client.c")
     else:
         print "Nice try Skidiot, try again next time."
-
 
 while True:
     {
