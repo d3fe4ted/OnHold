@@ -3,7 +3,6 @@
 import sys
 import socket
 import time
-import requests
 import random
 import threading
 import getpass
