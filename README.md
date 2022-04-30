@@ -3,7 +3,7 @@ This is a homeholder I coded in 2 hours for fun, no menus all the commands you n
 
 <div>
   <h2>Requirements</h2><lu>
-  <li>A VPS Server (Atleast 1GB Ram & 1v Cores)
+  <li>A VPS Server (Atleast 1.5GB Ram & 2v Cores)
   <li>Wget
   <li>Python2
   <li>Python3
