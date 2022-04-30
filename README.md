@@ -1,5 +1,5 @@
 # OnHold
-This is a homeholder I coded in 2 hours for fun, no menus all the commands you need to know all on the dashboard.
+This is a simple 164 line homeholder I coded in 2 hours for fun, no menus all the commands you need to know all on the dashboard. Holds basic home connections such as spectrum, at&t, xfinity, centurylink and more.
 
 <div>
   <h2>Requirements</h2><lu>
