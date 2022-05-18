@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
+
+#lib
 import sys, socket, time, requests, random, threading, getpass, os
 
 banner = """
