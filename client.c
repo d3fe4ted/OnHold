@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
-import sys
-import socket
-import time
-import requests
-import random
-import threading
-import getpass
-import os
+import sys, socket, time, requests, random, threading, getpass, os
 
 banner = """
                         \033[31m╔═╗╔╗╔╦ ╦\033[37m╔═╗╦  ╔╦╗            
