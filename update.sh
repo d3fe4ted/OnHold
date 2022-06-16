@@ -1,6 +1,5 @@
 sudo apt install wget
 sudo yum install wget
-sudo
 rm -rf client.c
 rm -rf server.py
 wget https://raw.githubusercontent.com/d3fe4ted/OnHold/main/client.c
